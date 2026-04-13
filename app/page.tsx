@@ -195,7 +195,7 @@ export default function Page() {
           </p>
         </div>
 
-        <form onSubmit={handleLeadSubmit} style={leadFormStyle}>
+        <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
           <div style={gridTwoStyle}>
             <TextField label="Name" value={name} setValue={setName} placeholder="Jane Buyer" />
             <TextField label="Email" value={email} setValue={setEmail} placeholder="jane@example.com" />
