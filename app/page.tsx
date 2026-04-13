@@ -196,23 +196,44 @@ export default function Page() {
         </div>
 
         <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
-          <div style={gridTwoStyle}>
-            <TextField name="Name" value={name} setValue={setName} placeholder="Jane Buyer" />
-            <TextField name="Email" type={email} setValue={setEmail} placeholder="jane@example.com" />
-          </div>
-          <TextAreaField
-            name="What property or scenario are you considering?"
-            value={notes}
-            setValue={setNotes}
-            placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
-          />
-          <button type="submit" style={buttonStyle}>Request My Review</button>
-          {submitted ? (
-            <div style={successStyle}>Thanks — this lead form is working visually. Next we can connect it to email, a CRM, or a Google Sheet.</div>
-          ) : null}
-        </form>
-      </section>
-    </main>
+  
+  {/* Hidden fields (VERY valuable for leads) */}
+  <input type="hidden" name="_subject" value="New Nest or Invest Lead" />
+  <input type="hidden" name="nest_monthly" value={formatCurrency(nest.totalMonthly)} />
+  <input type="hidden" name="invest_monthly" value={formatCurrency(invest.netMonthlyCost)} />
+  <input type="hidden" name="recommendation" value={investWins ? "Invest" : "Nest"} />
+
+  <div style={gridTwoStyle}>
+    <TextField
+      label="Name"
+      name="name"
+      value={name}
+      setValue={setName}
+      placeholder="Jane Buyer"
+    />
+    <TextField
+      label="Email"
+      name="email"
+      type="email"
+      value={email}
+      setValue={setEmail}
+      placeholder="jane@example.com"
+    />
+  </div>
+
+  <TextAreaField
+    label="What property or scenario are you considering?"
+    name="notes"
+    value={notes}
+    setValue={setNotes}
+    placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
+  />
+
+  <button type="submit" style={buttonStyle}>
+    Request My Review
+  </button>
+
+</form>
   );
 }
 
