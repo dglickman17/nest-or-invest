@@ -289,7 +289,7 @@ export default function Page() {
   </form>
 </section>
   );
-}
+
 
 const pageStyle: React.CSSProperties = {
   fontFamily: "Arial, sans-serif",
