@@ -197,11 +197,11 @@ export default function Page() {
 
         <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
           <div style={gridTwoStyle}>
-            <TextField label="Name" value={name} setValue={setName} placeholder="Jane Buyer" />
-            <TextField label="Email" value={email} setValue={setEmail} placeholder="jane@example.com" />
+            <TextField name="Name" value={name} setValue={setName} placeholder="Jane Buyer" />
+            <TextField name="Email" type={email} setValue={setEmail} placeholder="jane@example.com" />
           </div>
           <TextAreaField
-            label="What property or scenario are you considering?"
+            name="What property or scenario are you considering?"
             value={notes}
             setValue={setNotes}
             placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
