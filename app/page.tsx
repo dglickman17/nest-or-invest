@@ -186,54 +186,108 @@ export default function Page() {
         </section>
       </section>
 
-      <section style={leadSectionStyle}>
-        <div style={leadIntroStyle}>
-          <div style={eyebrowStyle}>Lead Capture</div>
-          <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
-          <p style={leadTextStyle}>
-            This can become your client-facing handoff point. A buyer runs the numbers, then asks you to follow up with advice on the better fit.
-          </p>
-        </div>
-
-        <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
-  
-  {/* Hidden fields (VERY valuable for leads) */}
-  <input type="hidden" name="_subject" value="New Nest or Invest Lead" />
-  <input type="hidden" name="nest_monthly" value={formatCurrency(nest.totalMonthly)} />
-  <input type="hidden" name="invest_monthly" value={formatCurrency(invest.netMonthlyCost)} />
-  <input type="hidden" name="recommendation" value={investWins ? "Invest" : "Nest"} />
-
-  <div style={gridTwoStyle}>
-    <TextField
-      label="Name"
-      name="name"
-      value={name}
-      setValue={setName}
-      placeholder="Jane Buyer"
-    />
-    <TextField
-      label="Email"
-      name="email"
-      type="email"
-      value={email}
-      setValue={setEmail}
-      placeholder="jane@example.com"
-    />
+    <section style={leadSectionStyle}>
+  <div style={leadIntroStyle}>
+    <div style={eyebrowStyle}>Lead Capture</div>
+    <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
+    <p style={leadTextStyle}>
+      Run the numbers, then request a follow-up review.
+    </p>
   </div>
 
-  <TextAreaField
-    label="What property or scenario are you considering?"
-    name="notes"
-    value={notes}
-    setValue={setNotes}
-    placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
-  />
+  <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
+    <input type="hidden" name="_subject" value="New Nest or Invest Lead" />
+    <input type="hidden" name="nest_monthly" value={formatCurrency(nest.totalMonthly)} />
+    <input type="hidden" name="invest_monthly" value={formatCurrency(invest.netMonthlyCost)} />
+    <input type="hidden" name="recommendation" value={investWins ? "Invest" : "Nest"} />
 
-  <button type="submit" style={buttonStyle}>
-    Request My Review
-  </button>
+    <div style={gridTwoStyle}>
+      <div>
+        <label
+          htmlFor="lead-name"
+          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+        >
+          Name
+        </label>
+        <input
+          id="lead-name"
+          name="name"
+          type="text"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Jane Buyer"
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "10px",
+            border: "1px solid #cbd5e1",
+            fontSize: "15px",
+            boxSizing: "border-box",
+          }}
+        />
+      </div>
 
-</form>
+      <div>
+        <label
+          htmlFor="lead-email"
+          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+        >
+          Email
+        </label>
+        <input
+          id="lead-email"
+          name="email"
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="jane@example.com"
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "10px",
+            border: "1px solid #cbd5e1",
+            fontSize: "15px",
+            boxSizing: "border-box",
+          }}
+        />
+      </div>
+    </div>
+
+    <div>
+      <label
+        htmlFor="lead-notes"
+        style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+      >
+        What property or scenario are you considering?
+      </label>
+      <textarea
+        id="lead-notes"
+        name="notes"
+        required
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
+        rows={5}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "10px",
+          border: "1px solid #cbd5e1",
+          fontSize: "15px",
+          boxSizing: "border-box",
+          resize: "vertical",
+          fontFamily: "Arial, sans-serif",
+        }}
+      />
+    </div>
+
+    <button type="submit" style={buttonStyle}>
+      Request My Review
+    </button>
+  </form>
+</section>
   );
 }
 
