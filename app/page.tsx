@@ -60,7 +60,9 @@ export default function Page() {
     const down = investPrice * (investDownPct / 100);
     const loan = investPrice - down;
     const mortgage = monthlyMortgagePayment(loan, investRate, investTerm);
-    const totalMonthly = mortgage + investTaxes + investInsurance + investMaintenance;
+    const taxes = (investPrice * (investTaxRate / 100)) / 12;
+    const insurance = (investPrice * (investInsuranceRate / 100)) / 12;
+    const totalMonthly = mortgage + taxes + insurance + investMaintenance;
     const effectiveRent = investRent * (1 - investVacancyPct / 100);
     const reserves = investRent * (investReservePct / 100);
     const netRentContribution = effectiveRent - reserves;
@@ -71,23 +73,25 @@ export default function Page() {
       down,
       loan,
       mortgage,
+      taxes,
+      insurance,
       totalMonthly,
       netRentContribution,
       netMonthlyCost,
       subsidyPct,
     };
   }, [
-    investPrice,
-    investDownPct,
-    investRate,
-    investTerm,
-    investTaxes,
-    investInsurance,
-    investMaintenance,
-    investRent,
-    investVacancyPct,
-    investReservePct,
-  ]);
+  investPrice,
+  investDownPct,
+  investRate,
+  investTerm,
+  investTaxRate,
+  investInsuranceRate,
+  investMaintenance,
+  investRent,
+  investVacancyPct,
+  investReservePct,
+]);
 
   const monthlyDifference = Math.abs(nest.totalMonthly - invest.netMonthlyCost);
   const investWins = invest.netMonthlyCost < nest.totalMonthly;
@@ -139,8 +143,8 @@ export default function Page() {
           <Field label="Down Payment %" value={investDownPct} setValue={setInvestDownPct} />
           <Field label="Interest Rate %" value={investRate} setValue={setInvestRate} />
           <Field label="Loan Term (Years)" value={investTerm} setValue={setInvestTerm} />
-          <Field label="Taxes / Month" value={investTaxes} setValue={setInvestTaxes} />
-          <Field label="Insurance / Month" value={investInsurance} setValue={setInvestInsurance} />
+          <Field label="Property Tax Rate %" value={investTaxRate} setValue={setInvestTaxRate} />
+          <Field label="Insurance Rate %" value={investInsuranceRate} setValue={setInvestInsuranceRate} />
           <Field label="Maintenance / Month" value={investMaintenance} setValue={setInvestMaintenance} />
           <Field label="Rent from Other Unit(s)" value={investRent} setValue={setInvestRent} />
           <Field label="Vacancy %" value={investVacancyPct} setValue={setInvestVacancyPct} />
@@ -169,6 +173,8 @@ export default function Page() {
           <Result label="Cash to Close" value={formatCurrency(nest.down)} />
           <Result label="Loan Amount" value={formatCurrency(nest.loan)} />
           <Result label="Mortgage Payment" value={formatCurrency(nest.mortgage)} />
+          <Result label="Taxes / Month" value={formatCurrency(nest.taxes)} />
+          <Result label="Insurance / Month" value={formatCurrency(nest.insurance)} />
           <Result label="Total Monthly Cost" value={formatCurrency(nest.totalMonthly)} />
           <div style={calloutMutedStyle}>
             <strong>Pros:</strong> privacy, simpler ownership, easier day-to-day living.
@@ -180,6 +186,8 @@ export default function Page() {
           <Result label="Cash to Close" value={formatCurrency(invest.down)} />
           <Result label="Loan Amount" value={formatCurrency(invest.loan)} />
           <Result label="Mortgage Payment" value={formatCurrency(invest.mortgage)} />
+          <Result label="Taxes / Month" value={formatCurrency(invest.taxes)} />
+          <Result label="Insurance / Month" value={formatCurrency(invest.insurance)} />
           <Result label="Total Monthly Cost" value={formatCurrency(invest.totalMonthly)} />
           <Result label="Net Rental Contribution" value={formatCurrency(invest.netRentContribution)} />
           <Result label="Effective Monthly Cost" value={formatCurrency(invest.netMonthlyCost)} />
