@@ -49,9 +49,11 @@ export default function Page() {
     const down = nestPrice * (nestDownPct / 100);
     const loan = nestPrice - down;
     const mortgage = monthlyMortgagePayment(loan, nestRate, nestTerm);
-    const totalMonthly = mortgage + nestTaxes + nestInsurance + nestMaintenance + nestHoa;
+    const taxes = (nestPrice * (nestTaxRate / 100)) / 12;
+    const insurance = (nestPrice * (nestInsuranceRate / 100)) / 12;
+    const totalMonthly = mortgage + taxes + insurance + nestMaintenance + nestHoa;
 
-    return { down, loan, mortgage, totalMonthly };
+    return { down, loan, mortgage, taxes, insurance, totalMonthly };
   }, [nestPrice, nestDownPct, nestRate, nestTerm, nestTaxes, nestInsurance, nestMaintenance, nestHoa]);
 
   const invest = useMemo(() => {
