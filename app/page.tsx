@@ -25,8 +25,8 @@ export default function Page() {
   const [nestDownPct, setNestDownPct] = useState(20);
   const [nestRate, setNestRate] = useState(6.5);
   const [nestTerm, setNestTerm] = useState(30);
-  const [nestTaxes, setNestTaxes] = useState(1.2);
-  const [nestInsurance, setNestInsurance] = useState(0.23);
+  const [nestTaxRate, setNestTaxRate] = useState(1.2);
+  const [nestInsuranceRate, setNestInsuranceRate] = useState(0.23);
   const [nestMaintenance, setNestMaintenance] = useState(400);
   const [nestHoa, setNestHoa] = useState(0);
 
@@ -34,8 +34,8 @@ export default function Page() {
   const [investDownPct, setInvestDownPct] = useState(20);
   const [investRate, setInvestRate] = useState(6.75);
   const [investTerm, setInvestTerm] = useState(30);
-  const [investTaxes, setInvestTaxes] = useState(1.2);
-  const [investInsurance, setInvestInsurance] = useState(0.26);
+  const [investTaxRate, setInvestTaxRate] = useState(1.2);
+  const [investInsuranceRate, setInvestInsuranceRate] = useState(0.26);
   const [investMaintenance, setInvestMaintenance] = useState(550);
   const [investRent, setInvestRent] = useState(3200);
   const [investVacancyPct, setInvestVacancyPct] = useState(5);
@@ -49,12 +49,12 @@ export default function Page() {
     const down = nestPrice * (nestDownPct / 100);
     const loan = nestPrice - down;
     const mortgage = monthlyMortgagePayment(loan, nestRate, nestTerm);
-    const taxes = (nestPrice * (nestTaxes / 100)) / 12;
+    const taxes = (nestPrice * (nestTaxRate / 100)) / 12;
     const insurance = (nestPrice * (nestInsuranceRate / 100)) / 12;
     const totalMonthly = mortgage + taxes + insurance + nestMaintenance + nestHoa;
 
     return { down, loan, mortgage, taxes, insurance, totalMonthly };
-  }, [nestPrice, nestDownPct, nestRate, nestTerm, nestTaxes, nestInsurance, nestMaintenance, nestHoa]);
+  }, [nestPrice, nestDownPct, nestRate, nestTerm, nestTaxRate, nestInsuranceRate, nestMaintenance, nestHoa]);
 
   const invest = useMemo(() => {
     const down = investPrice * (investDownPct / 100);
@@ -81,16 +81,16 @@ export default function Page() {
       subsidyPct,
     };
   }, [
-  investPrice,
-  investDownPct,
-  investRate,
-  investTerm,
-  investTaxRate,
-  investInsuranceRate,
-  investMaintenance,
-  investRent,
-  investVacancyPct,
-  investReservePct,
+      investPrice,
+      investDownPct,
+      investRate,
+      investTerm,
+      investTaxRate,
+      investInsuranceRate,
+      investMaintenance,
+      investRent,
+      investVacancyPct,
+      investReservePct,
 ]);
 
   const monthlyDifference = Math.abs(nest.totalMonthly - invest.netMonthlyCost);
@@ -130,8 +130,8 @@ export default function Page() {
           <Field label="Down Payment %" value={nestDownPct} setValue={setNestDownPct} />
           <Field label="Interest Rate %" value={nestRate} setValue={setNestRate} />
           <Field label="Loan Term (Years)" value={nestTerm} setValue={setNestTerm} />
-          <Field label="Taxes / Month" value={nestTaxes} setValue={setNestTaxes} />
-          <Field label="Insurance / Month" value={nestInsurance} setValue={setNestInsurance} />
+          <Field label="Property Tax Rate (% annually)" value={nestTaxRate} setValue={setNestTaxRate} />
+          <Field label="Insurance Rate (% annually)" value={nestInsuranceRate} setValue={setNestInsuranceRate} />
           <Field label="Maintenance / Month" value={nestMaintenance} setValue={setNestMaintenance} />
           <Field label="HOA / Month" value={nestHoa} setValue={setNestHoa} />
         </section>
@@ -143,8 +143,8 @@ export default function Page() {
           <Field label="Down Payment %" value={investDownPct} setValue={setInvestDownPct} />
           <Field label="Interest Rate %" value={investRate} setValue={setInvestRate} />
           <Field label="Loan Term (Years)" value={investTerm} setValue={setInvestTerm} />
-          <Field label="Property Tax Rate %" value={investTaxRate} setValue={setInvestTaxRate} />
-          <Field label="Insurance Rate %" value={investInsuranceRate} setValue={setInvestInsuranceRate} />
+          <Field label="Property Tax Rate (% annually)" value={investTaxRate} setValue={setInvestTaxRate} />
+          <Field label="Insurance Rate (% annually)" value={investInsuranceRate} setValue={setInvestInsuranceRate} />
           <Field label="Maintenance / Month" value={investMaintenance} setValue={setInvestMaintenance} />
           <Field label="Rent from Other Unit(s)" value={investRent} setValue={setInvestRent} />
           <Field label="Vacancy %" value={investVacancyPct} setValue={setInvestVacancyPct} />
