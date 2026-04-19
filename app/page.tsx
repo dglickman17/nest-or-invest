@@ -25,8 +25,8 @@ export default function Page() {
   const [nestDownPct, setNestDownPct] = useState(20);
   const [nestRate, setNestRate] = useState(6.5);
   const [nestTerm, setNestTerm] = useState(30);
-  const [nestTaxes, setNestTaxes] = useState(950);
-  const [nestInsurance, setNestInsurance] = useState(180);
+  const [nestTaxes, setNestTaxes] = useState(1.2);
+  const [nestInsurance, setNestInsurance] = useState(0.23);
   const [nestMaintenance, setNestMaintenance] = useState(400);
   const [nestHoa, setNestHoa] = useState(0);
 
@@ -34,8 +34,8 @@ export default function Page() {
   const [investDownPct, setInvestDownPct] = useState(20);
   const [investRate, setInvestRate] = useState(6.75);
   const [investTerm, setInvestTerm] = useState(30);
-  const [investTaxes, setInvestTaxes] = useState(1150);
-  const [investInsurance, setInvestInsurance] = useState(250);
+  const [investTaxes, setInvestTaxes] = useState(1.2);
+  const [investInsurance, setInvestInsurance] = useState(0.26);
   const [investMaintenance, setInvestMaintenance] = useState(550);
   const [investRent, setInvestRent] = useState(3200);
   const [investVacancyPct, setInvestVacancyPct] = useState(5);
