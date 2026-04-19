@@ -44,7 +44,6 @@ export default function Page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [notes, setNotes] = useState("");
-  const [submitted, setSubmitted] = useState(false);
 
   const nest = useMemo(() => {
     const down = nestPrice * (nestDownPct / 100);
@@ -94,11 +93,6 @@ export default function Page() {
   const recommendation = investWins
     ? `Invest lowers your effective monthly cost by ${formatCurrency(monthlyDifference)} per month.`
     : `Nest costs ${formatCurrency(monthlyDifference)} less per month under these assumptions.`;
-
-  function handleLeadSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitted(true);
-  }
 
   return (
     <main style={pageStyle}>
@@ -155,8 +149,16 @@ export default function Page() {
       <section style={metricsGridStyle}>
         <MetricCard label="Nest monthly cost" value={formatCurrency(nest.totalMonthly)} helper="Your full monthly ownership cost" />
         <MetricCard label="Invest monthly cost" value={formatCurrency(invest.netMonthlyCost)} helper="After rental contribution" />
-        <MetricCard label="Monthly difference" value={formatCurrency(monthlyDifference)} helper={investWins ? "Potential monthly savings with Invest" : "Potential monthly savings with Nest"} />
-        <MetricCard label="Tenant subsidy" value={`${Math.max(0, invest.subsidyPct).toFixed(0)}%`} helper="Percent of ownership cost covered by rent" />
+        <MetricCard
+          label="Monthly difference"
+          value={formatCurrency(monthlyDifference)}
+          helper={investWins ? "Potential monthly savings with Invest" : "Potential monthly savings with Nest"}
+        />
+        <MetricCard
+          label="Tenant subsidy"
+          value={`${Math.max(0, invest.subsidyPct).toFixed(0)}%`}
+          helper="Percent of ownership cost covered by rent"
+        />
       </section>
 
       <section style={gridTwoStyle}>
@@ -186,110 +188,109 @@ export default function Page() {
         </section>
       </section>
 
-    <section style={leadSectionStyle}>
-  <div style={leadIntroStyle}>
-    <div style={eyebrowStyle}>Lead Capture</div>
-    <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
-    <p style={leadTextStyle}>
-      Run the numbers, then request a follow-up review.
-    </p>
-  </div>
+      <section style={leadSectionStyle}>
+        <div style={leadIntroStyle}>
+          <div style={eyebrowStyle}>Lead Capture</div>
+          <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
+          <p style={leadTextStyle}>Run the numbers, then request a follow-up review.</p>
+        </div>
 
-  <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
-    <input type="hidden" name="_subject" value="New Nest or Invest Lead" />
-    <input type="hidden" name="nest_monthly" value={formatCurrency(nest.totalMonthly)} />
-    <input type="hidden" name="invest_monthly" value={formatCurrency(invest.netMonthlyCost)} />
-    <input type="hidden" name="recommendation" value={investWins ? "Invest" : "Nest"} />
+        <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
+          <input type="hidden" name="_subject" value="New Nest or Invest Lead" />
+          <input type="hidden" name="nest_monthly" value={formatCurrency(nest.totalMonthly)} />
+          <input type="hidden" name="invest_monthly" value={formatCurrency(invest.netMonthlyCost)} />
+          <input type="hidden" name="recommendation" value={investWins ? "Invest" : "Nest"} />
 
-    <div style={gridTwoStyle}>
-      <div>
-        <label
-          htmlFor="lead-name"
-          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-        >
-          Name
-        </label>
-        <input
-          id="lead-name"
-          name="name"
-          type="text"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Jane Buyer"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "1px solid #cbd5e1",
-            fontSize: "15px",
-            boxSizing: "border-box",
-          }}
-        />
-      </div>
+          <div style={gridTwoStyle}>
+            <div>
+              <label
+                htmlFor="lead-name"
+                style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+              >
+                Name
+              </label>
+              <input
+                id="lead-name"
+                name="name"
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Jane Buyer"
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: "10px",
+                  border: "1px solid #cbd5e1",
+                  fontSize: "15px",
+                  boxSizing: "border-box",
+                }}
+              />
+            </div>
 
-      <div>
-        <label
-          htmlFor="lead-email"
-          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-        >
-          Email
-        </label>
-        <input
-          id="lead-email"
-          name="email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="jane@example.com"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "1px solid #cbd5e1",
-            fontSize: "15px",
-            boxSizing: "border-box",
-          }}
-        />
-      </div>
-    </div>
+            <div>
+              <label
+                htmlFor="lead-email"
+                style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+              >
+                Email
+              </label>
+              <input
+                id="lead-email"
+                name="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="jane@example.com"
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: "10px",
+                  border: "1px solid #cbd5e1",
+                  fontSize: "15px",
+                  boxSizing: "border-box",
+                }}
+              />
+            </div>
+          </div>
 
-    <div>
-      <label
-        htmlFor="lead-notes"
-        style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-      >
-        What property or scenario are you considering?
-      </label>
-      <textarea
-        id="lead-notes"
-        name="notes"
-        required
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
-        rows={5}
-        style={{
-          width: "100%",
-          padding: "12px",
-          borderRadius: "10px",
-          border: "1px solid #cbd5e1",
-          fontSize: "15px",
-          boxSizing: "border-box",
-          resize: "vertical",
-          fontFamily: "Arial, sans-serif",
-        }}
-      />
-    </div>
+          <div>
+            <label
+              htmlFor="lead-notes"
+              style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+            >
+              What property or scenario are you considering?
+            </label>
+            <textarea
+              id="lead-notes"
+              name="notes"
+              required
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
+              rows={5}
+              style={{
+                width: "100%",
+                padding: "12px",
+                borderRadius: "10px",
+                border: "1px solid #cbd5e1",
+                fontSize: "15px",
+                boxSizing: "border-box",
+                resize: "vertical",
+                fontFamily: "Arial, sans-serif",
+              }}
+            />
+          </div>
 
-    <button type="submit" style={buttonStyle}>
-      Request My Review
-    </button>
-  </form>
-</section>
+          <button type="submit" style={buttonStyle}>
+            Request My Review
+          </button>
+        </form>
+      </section>
+    </main>
   );
-
+}
 
 const pageStyle: React.CSSProperties = {
   fontFamily: "Arial, sans-serif",
@@ -453,14 +454,6 @@ const buttonStyle: React.CSSProperties = {
   width: "fit-content",
 };
 
-const successStyle: React.CSSProperties = {
-  background: "#ecfdf5",
-  color: "#166534",
-  border: "1px solid #bbf7d0",
-  borderRadius: "12px",
-  padding: "14px 16px",
-};
-
 function Field({
   label,
   value,
@@ -484,72 +477,6 @@ function Field({
           border: "1px solid #cbd5e1",
           fontSize: "15px",
           boxSizing: "border-box",
-        }}
-      />
-    </div>
-  );
-}
-
-function TextField({
-  label,
-  value,
-  setValue,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  setValue: (value: string) => void;
-  placeholder: string;
-}) {
-  return (
-    <div>
-      <label style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}>{label}</label>
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder={placeholder}
-        style={{
-          width: "100%",
-          padding: "12px",
-          borderRadius: "10px",
-          border: "1px solid #cbd5e1",
-          fontSize: "15px",
-          boxSizing: "border-box",
-        }}
-      />
-    </div>
-  );
-}
-
-function TextAreaField({
-  label,
-  value,
-  setValue,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  setValue: (value: string) => void;
-  placeholder: string;
-}) {
-  return (
-    <div>
-      <label style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}>{label}</label>
-      <textarea
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder={placeholder}
-        rows={5}
-        style={{
-          width: "100%",
-          padding: "12px",
-          borderRadius: "10px",
-          border: "1px solid #cbd5e1",
-          fontSize: "15px",
-          boxSizing: "border-box",
-          resize: "vertical",
-          fontFamily: "Arial, sans-serif",
         }}
       />
     </div>
