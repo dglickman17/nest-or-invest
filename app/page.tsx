@@ -211,7 +211,7 @@ export default function Page() {
           <input type="hidden" name="invest_monthly" value={formatCurrency(invest.netMonthlyCost)} />
           <input type="hidden" name="recommendation" value={investWins ? "Invest" : "Nest"} />
 
-          <div style={gridTwoStyle}>
+          <div style={gridThreeStyle}>
             <div>
               <label
                 htmlFor="lead-name"
@@ -406,6 +406,12 @@ const bannerStyle: React.CSSProperties = {
 const gridTwoStyle: React.CSSProperties = {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
+  gap: "24px",
+};
+
+const gridThreeStyle: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr 1fr",
   gap: "24px",
 };
 
