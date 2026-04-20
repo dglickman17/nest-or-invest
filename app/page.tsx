@@ -479,10 +479,7 @@ function Field({
       <input
         type="number"
         value={value}
-        onChange={(e) => {
-  if (e.target.value === "") return;
-  setValue(Number(e.target.value));
-}}
+        onChange={(e) => setValue(Number(e.target.value || 0))}
         style={{
           width: "100%",
           padding: "12px",
