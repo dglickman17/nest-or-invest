@@ -200,7 +200,6 @@ export default function Page() {
 
       <section style={leadSectionStyle}>
         <div style={leadIntroStyle}>
-          <div style={eyebrowStyle}>Lead Capture</div>
           <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
           <p style={leadTextStyle}>Run the numbers, then request a follow-up review.</p>
         </div>
@@ -264,7 +263,30 @@ export default function Page() {
               />
             </div>
           </div>
-
+<div>
+  <label
+    htmlFor="lead-phone"
+    style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+  >
+    Phone Number
+  </label>
+  <input
+    id="lead-phone"
+    name="phone"
+    type="tel"
+    value={phone}
+    onChange={(e) => setPhone(e.target.value)}
+    placeholder="(310) 555-1212"
+    style={{
+      width: "100%",
+      padding: "12px",
+      borderRadius: "10px",
+      border: "1px solid #cbd5e1",
+      fontSize: "15px",
+      boxSizing: "border-box",
+    }}
+  />
+</div>
           <div>
             <label
               htmlFor="lead-notes"
