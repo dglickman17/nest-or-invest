@@ -43,6 +43,7 @@ export default function Page() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
 
   const nest = useMemo(() => {
