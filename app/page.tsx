@@ -40,7 +40,8 @@ export default function Page() {
   const [investRent, setInvestRent] = useState(3200);
   const [investVacancyPct, setInvestVacancyPct] = useState(5);
   const [investReservePct, setInvestReservePct] = useState(8);
-
+  const [leadStatus, setLeadStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -100,6 +101,42 @@ export default function Page() {
   const recommendation = investWins
     ? `Invest lowers your effective monthly cost by ${formatCurrency(monthlyDifference)} per month.`
     : `Nest costs ${formatCurrency(monthlyDifference)} less per month under these assumptions.`;
+
+  async function handleLeadSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+  setLeadStatus("submitting");
+
+  const payload = {
+    name,
+    email,
+    notes,
+    nest_monthly: formatCurrency(nest.totalMonthly),
+    invest_monthly: formatCurrency(invest.netMonthlyCost),
+    recommendation: investWins ? "Invest" : "Nest",
+  };
+
+  try {
+    const response = await fetch("https://formspree.io/f/mlgarpaj", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      setLeadStatus("success");
+      setName("");
+      setEmail("");
+      setNotes("");
+    } else {
+      setLeadStatus("error");
+    }
+  } catch (error) {
+    setLeadStatus("error");
+  }
+}
 
   return (
     <main style={pageStyle}>
@@ -199,127 +236,122 @@ export default function Page() {
         </section>
       </section>
 
-      <section style={leadSectionStyle}>
-        <div style={leadIntroStyle}>
-          <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
-          <p style={leadTextStyle}>Run the numbers, then request a follow-up review.</p>
-        </div>
+     <section style={leadSectionStyle}>
+  <div style={leadIntroStyle}>
+    <div style={eyebrowStyle}>Lead Capture</div>
+    <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
+    <p style={leadTextStyle}>
+      Run the numbers, then request a follow-up review.
+    </p>
+  </div>
 
-        <form action="https://formspree.io/f/mlgarpaj" method="POST" style={leadFormStyle}>
-          <input type="hidden" name="_subject" value="New Nest or Invest Lead" />
-          <input type="hidden" name="nest_monthly" value={formatCurrency(nest.totalMonthly)} />
-          <input type="hidden" name="invest_monthly" value={formatCurrency(invest.netMonthlyCost)} />
-          <input type="hidden" name="recommendation" value={investWins ? "Invest" : "Nest"} />
+<form onSubmit={handleLeadSubmit} style={leadFormStyle}>
+    <div style={gridTwoStyle}>
+      <div>
+        <label
+          htmlFor="lead-name"
+          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+        >
+          Name
+        </label>
+        <input
+          id="lead-name"
+          name="name"
+          type="text"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Jane Buyer"
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "10px",
+            border: "1px solid #cbd5e1",
+            fontSize: "15px",
+            boxSizing: "border-box",
+          }}
+        />
+      </div>
 
-          <div style={gridThreeStyle}>
-            <div>
-              <label
-                htmlFor="lead-name"
-                style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-              >
-                Name
-              </label>
-              <input
-                id="lead-name"
-                name="name"
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Jane Buyer"
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: "10px",
-                  border: "1px solid #cbd5e1",
-                  fontSize: "15px",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
+      <div>
+        <label
+          htmlFor="lead-email"
+          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+        >
+          Email
+        </label>
+        <input
+          id="lead-email"
+          name="email"
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="jane@example.com"
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "10px",
+            border: "1px solid #cbd5e1",
+            fontSize: "15px",
+            boxSizing: "border-box",
+          }}
+        />
+      </div>
+    </div>
 
-            <div>
-              <label
-                htmlFor="lead-email"
-                style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-              >
-                Email
-              </label>
-              <input
-                id="lead-email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="jane@example.com"
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: "10px",
-                  border: "1px solid #cbd5e1",
-                  fontSize: "15px",
-                  boxSizing: "border-box",
-                }}
-              />
-            </div>
-          </div>
-<div>
-  <label
-    htmlFor="lead-phone"
-    style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-  >
-    Phone Number
-  </label>
-  <input
-    id="lead-phone"
-    name="phone"
-    type="tel"
-    value={phone}
-    onChange={(e) => setPhone(e.target.value)}
-    placeholder="(310) 555-1212"
-    style={{
-      width: "100%",
-      padding: "12px",
-      borderRadius: "10px",
-      border: "1px solid #cbd5e1",
-      fontSize: "15px",
-      boxSizing: "border-box",
-    }}
-  />
-</div>
-          <div>
-            <label
-              htmlFor="lead-notes"
-              style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-            >
-              What property or scenario are you considering?
-            </label>
-            <textarea
-              id="lead-notes"
-              name="notes"
-              required
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
-              rows={5}
-              style={{
-                width: "100%",
-                padding: "12px",
-                borderRadius: "10px",
-                border: "1px solid #cbd5e1",
-                fontSize: "15px",
-                boxSizing: "border-box",
-                resize: "vertical",
-                fontFamily: "Arial, sans-serif",
-              }}
-            />
-          </div>
+    <div>
+      <label
+        htmlFor="lead-notes"
+        style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+      >
+        What property or scenario are you considering?
+      </label>
+      <textarea
+        id="lead-notes"
+        name="notes"
+        required
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
+        rows={5}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "10px",
+          border: "1px solid #cbd5e1",
+          fontSize: "15px",
+          boxSizing: "border-box",
+          resize: "vertical",
+          fontFamily: "Arial, sans-serif",
+        }}
+      />
+    </div>
 
-          <button type="submit" style={buttonStyle}>
-            Request My Review
-          </button>
-        </form>
+    <button type="submit" style={buttonStyle}>
+      {leadStatus === "submitting" ? "Submitting..." : "Request My Review"}
+    </button>
+
+    {leadStatus === "success" && (
+      <div style={successStyle}>
+        Thanks — your request was submitted successfully.
+      </div>
+    )}
+
+    {leadStatus === "error" && (
+      <div
+        style={{
+          background: "#fef2f2",
+          color: "#991b1b",
+          border: "1px solid #fecaca",
+          borderRadius: "12px",
+          padding: "14px 16px",
+        }}
+      >
+        Something went wrong. Please try again.
+      </div>
+    )}
+  </form>
       </section>
     </main>
   );
