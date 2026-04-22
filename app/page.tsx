@@ -107,13 +107,14 @@ export default function Page() {
   setLeadStatus("submitting");
 
   const payload = {
-    name,
-    email,
-    notes,
-    nest_monthly: formatCurrency(nest.totalMonthly),
-    invest_monthly: formatCurrency(invest.netMonthlyCost),
-    recommendation: investWins ? "Invest" : "Nest",
-  };
+  name,
+  email,
+  phone,
+  notes,
+  nest_monthly: formatCurrency(nest.totalMonthly),
+  invest_monthly: formatCurrency(invest.netMonthlyCost),
+  recommendation: investWins ? "Invest" : "Nest",
+};
 
   try {
     const response = await fetch("https://formspree.io/f/mlgarpaj", {
@@ -129,6 +130,7 @@ export default function Page() {
       setLeadStatus("success");
       setName("");
       setEmail("");
+      setPhone("");
       setNotes("");
     } else {
       setLeadStatus("error");
@@ -238,7 +240,6 @@ export default function Page() {
 
      <section style={leadSectionStyle}>
   <div style={leadIntroStyle}>
-    <div style={eyebrowStyle}>Lead Capture</div>
     <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
     <p style={leadTextStyle}>
       Run the numbers, then request a follow-up review.
@@ -246,66 +247,90 @@ export default function Page() {
   </div>
 
 <form onSubmit={handleLeadSubmit} style={leadFormStyle}>
-    <div style={gridTwoStyle}>
-      <div>
-        <label
-          htmlFor="lead-name"
-          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-        >
-          Name
-        </label>
-        <input
-          id="lead-name"
-          name="name"
-          type="text"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Jane Buyer"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "1px solid #cbd5e1",
-            fontSize: "15px",
-            boxSizing: "border-box",
-          }}
-        />
-      </div>
+<div style={gridThreeStyle}>
+  <div>
+    <label
+      htmlFor="lead-name"
+      style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+    >
+      Name
+    </label>
+    <input
+      id="lead-name"
+      name="name"
+      type="text"
+      required
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      placeholder="Jane Buyer"
+      style={{
+        width: "100%",
+        padding: "12px",
+        borderRadius: "10px",
+        border: "1px solid #cbd5e1",
+        fontSize: "15px",
+        boxSizing: "border-box",
+      }}
+    />
+  </div>
 
-      <div>
-        <label
-          htmlFor="lead-email"
-          style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-        >
-          Email
-        </label>
-        <input
-          id="lead-email"
-          name="email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="jane@example.com"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "10px",
-            border: "1px solid #cbd5e1",
-            fontSize: "15px",
-            boxSizing: "border-box",
-          }}
-        />
-      </div>
-    </div>
+  <div>
+    <label
+      htmlFor="lead-email"
+      style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+    >
+      Email
+    </label>
+    <input
+      id="lead-email"
+      name="email"
+      type="email"
+      required
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      placeholder="jane@example.com"
+      style={{
+        width: "100%",
+        padding: "12px",
+        borderRadius: "10px",
+        border: "1px solid #cbd5e1",
+        fontSize: "15px",
+        boxSizing: "border-box",
+      }}
+    />
+  </div>
 
+  <div>
+    <label
+      htmlFor="lead-phone"
+      style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+    >
+      Phone Number
+    </label>
+    <input
+      id="lead-phone"
+      name="phone"
+      type="tel"
+      value={phone}
+      onChange={(e) => setPhone(e.target.value)}
+      placeholder="(310) 555-1212"
+      style={{
+        width: "100%",
+        padding: "12px",
+        borderRadius: "10px",
+        border: "1px solid #cbd5e1",
+        fontSize: "15px",
+        boxSizing: "border-box",
+      }}
+    />
+  </div>
+</div>
     <div>
       <label
         htmlFor="lead-notes"
         style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
       >
-        What property or scenario are you considering?
+        Tell me about the property or scenario you're considering, and any timeline to keep in mind.
       </label>
       <textarea
         id="lead-notes"
@@ -313,7 +338,7 @@ export default function Page() {
         required
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
-        placeholder="Example: I am comparing a duplex in Culver City against a single-family home nearby."
+        placeholder="Example: I'm comparing a duplex in Culver City with a single-family home nearby, and I'd like to make a decision in the next 60 days."
         rows={5}
         style={{
           width: "100%",
@@ -433,6 +458,14 @@ const bannerStyle: React.CSSProperties = {
   borderRadius: "14px",
   marginBottom: "28px",
   border: "1px solid #cfe3ff",
+};
+
+const successStyle: React.CSSProperties = {
+  background: "#ecfdf5",
+  color: "#166534",
+  border: "1px solid #bbf7d0",
+  borderRadius: "12px",
+  padding: "14px 16px",
 };
 
 const gridTwoStyle: React.CSSProperties = {
