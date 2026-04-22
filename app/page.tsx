@@ -238,108 +238,31 @@ export default function Page() {
         </section>
       </section>
 
-     <section style={leadSectionStyle}>
-  <div style={leadIntroStyle}>
-    <h2 style={leadTitleStyle}>Want help reviewing your scenario?</h2>
-    <p style={leadTextStyle}>
-      Run the numbers, then request a follow-up review.
-    </p>
-  </div>
+<div style={leadIntroStyle}>
+  <div style={eyebrowStyle}>Next Step</div>
+  <h2 style={leadTitleStyle}>Want a personalized review of your scenario?</h2>
+  <p style={leadTextStyle}>
+    Enter your information below and I’ll follow up with a more tailored take on whether your numbers point toward Nest or Invest.
+  </p>
+</div>
 
 <form onSubmit={handleLeadSubmit} style={leadFormStyle}>
-<div style={gridThreeStyle}>
-  <div>
-    <label
-      htmlFor="lead-name"
-      style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-    >
-      Name
-    </label>
-    <input
-      id="lead-name"
-      name="name"
-      type="text"
-      required
-      value={name}
-      onChange={(e) => setName(e.target.value)}
-      placeholder="Jane Buyer"
-      style={{
-        width: "100%",
-        padding: "12px",
-        borderRadius: "10px",
-        border: "1px solid #cbd5e1",
-        fontSize: "15px",
-        boxSizing: "border-box",
-      }}
-    />
-  </div>
-
-  <div>
-    <label
-      htmlFor="lead-email"
-      style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-    >
-      Email
-    </label>
-    <input
-      id="lead-email"
-      name="email"
-      type="email"
-      required
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      placeholder="jane@example.com"
-      style={{
-        width: "100%",
-        padding: "12px",
-        borderRadius: "10px",
-        border: "1px solid #cbd5e1",
-        fontSize: "15px",
-        boxSizing: "border-box",
-      }}
-    />
-  </div>
-
-  <div>
-    <label
-      htmlFor="lead-phone"
-      style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
-    >
-      Phone Number
-    </label>
-    <input
-      id="lead-phone"
-      name="phone"
-      type="tel"
-      value={phone}
-      onChange={(e) => setPhone(e.target.value)}
-      placeholder="(310) 555-1212"
-      style={{
-        width: "100%",
-        padding: "12px",
-        borderRadius: "10px",
-        border: "1px solid #cbd5e1",
-        fontSize: "15px",
-        boxSizing: "border-box",
-      }}
-    />
-  </div>
-</div>
+  <div style={gridTwoStyle}>
     <div>
       <label
-        htmlFor="lead-notes"
+        htmlFor="lead-name"
         style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
       >
-        Tell me about the property or scenario you're considering, and any timeline to keep in mind.
+        Full Name
       </label>
-      <textarea
-        id="lead-notes"
-        name="notes"
+      <input
+        id="lead-name"
+        name="name"
+        type="text"
         required
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        placeholder="Example: I'm comparing a duplex in Culver City with a single-family home nearby, and I'd like to make a decision in the next 60 days."
-        rows={5}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Jane Buyer"
         style={{
           width: "100%",
           padding: "12px",
@@ -347,36 +270,93 @@ export default function Page() {
           border: "1px solid #cbd5e1",
           fontSize: "15px",
           boxSizing: "border-box",
-          resize: "vertical",
-          fontFamily: "Arial, sans-serif",
         }}
       />
     </div>
 
-    <button type="submit" style={buttonStyle}>
-      {leadStatus === "submitting" ? "Submitting..." : "Request My Review"}
-    </button>
-
-    {leadStatus === "success" && (
-      <div style={successStyle}>
-        Thanks — your request was submitted successfully.
-      </div>
-    )}
-
-    {leadStatus === "error" && (
-      <div
-        style={{
-          background: "#fef2f2",
-          color: "#991b1b",
-          border: "1px solid #fecaca",
-          borderRadius: "12px",
-          padding: "14px 16px",
-        }}
+    <div>
+      <label
+        htmlFor="lead-email"
+        style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
       >
-        Something went wrong. Please try again.
-      </div>
-    )}
-  </form>
+        Email Address
+      </label>
+      <input
+        id="lead-email"
+        name="email"
+        type="email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="jane@example.com"
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "10px",
+          border: "1px solid #cbd5e1",
+          fontSize: "15px",
+          boxSizing: "border-box",
+        }}
+      />
+    </div>
+  </div>
+
+  <div>
+    <label
+      htmlFor="lead-notes"
+      style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+    >
+      What property or scenario are you considering?
+    </label>
+    <textarea
+      id="lead-notes"
+      name="notes"
+      required
+      value={notes}
+      onChange={(e) => setNotes(e.target.value)}
+      placeholder="Example: I’m comparing a duplex in Culver City with a single-family home nearby."
+      rows={5}
+      style={{
+        width: "100%",
+        padding: "12px",
+        borderRadius: "10px",
+        border: "1px solid #cbd5e1",
+        fontSize: "15px",
+        boxSizing: "border-box",
+        resize: "vertical",
+        fontFamily: "Arial, sans-serif",
+      }}
+    />
+  </div>
+
+  <div style={{ fontSize: "13px", color: "#64748b", lineHeight: 1.5 }}>
+    Your information is only used so I can follow up about this scenario.
+  </div>
+
+  <button type="submit" style={buttonStyle}>
+    {leadStatus === "submitting" ? "Submitting..." : "Request My Personalized Review"}
+  </button>
+
+  {leadStatus === "success" && (
+    <div style={successStyle}>
+      Thanks — your request was submitted successfully.
+    </div>
+  )}
+
+  {leadStatus === "error" && (
+    <div
+      style={{
+        background: "#fef2f2",
+        color: "#991b1b",
+        border: "1px solid #fecaca",
+        borderRadius: "12px",
+        padding: "14px 16px",
+      }}
+    >
+      Something went wrong. Please try again.
+    </div>
+  )}
+</form>
       </section>
     </main>
   );
@@ -521,8 +501,8 @@ const leadSectionStyle: React.CSSProperties = {
   background: "#ffffff",
   border: "1px solid #d9e2ec",
   borderRadius: "20px",
-  padding: "24px",
-  boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+  padding: "28px",
+  boxShadow: "0 8px 24px rgba(15, 23, 42, 0.06)",
 };
 
 const leadIntroStyle: React.CSSProperties = {
@@ -551,11 +531,12 @@ const buttonStyle: React.CSSProperties = {
   color: "white",
   border: 0,
   borderRadius: "12px",
-  padding: "14px 18px",
+  padding: "14px 20px",
   fontSize: "16px",
   fontWeight: 700,
   cursor: "pointer",
   width: "fit-content",
+  boxShadow: "0 6px 16px rgba(37, 99, 235, 0.25)",
 };
 
 function Field({
