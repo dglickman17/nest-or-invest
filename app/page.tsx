@@ -21,6 +21,7 @@ function formatCurrency(value: number) {
 }
 
 export default function Page() {
+  const [nestAddress, setNestAddress] = useState("");
   const [nestPrice, setNestPrice] = useState(950000);
   const [nestDownPct, setNestDownPct] = useState(20);
   const [nestRate, setNestRate] = useState(6.5);
@@ -30,6 +31,7 @@ export default function Page() {
   const [nestMaintenance, setNestMaintenance] = useState(400);
   const [nestHoa, setNestHoa] = useState(0);
 
+  const [investAddress, setInvestAddress] = useState("");
   const [investPrice, setInvestPrice] = useState(1150000);
   const [investDownPct, setInvestDownPct] = useState(20);
   const [investRate, setInvestRate] = useState(6.75);
@@ -54,8 +56,8 @@ export default function Page() {
     const taxes = (nestPrice * (nestTaxRate / 100)) / 12;
     const insurance = (nestPrice * (nestInsuranceRate / 100)) / 12;
     const totalMonthly = mortgage + taxes + insurance + nestMaintenance + nestHoa;
-
-    return { down, loan, mortgage, taxes, insurance, totalMonthly };
+    
+  return { down, loan, mortgage, taxes, insurance, totalMonthly };
   }, [nestPrice, nestDownPct, nestRate, nestTerm, nestTaxRate, nestInsuranceRate, nestMaintenance, nestHoa]);
 
   const invest = useMemo(() => {
@@ -102,6 +104,29 @@ export default function Page() {
     ? `Invest lowers your effective monthly cost by ${formatCurrency(monthlyDifference)} per month.`
     : `Nest costs ${formatCurrency(monthlyDifference)} less per month under these assumptions.`;
 
+    const nestMapLink =
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(nestAddress)}`;
+
+const investMapLink =
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(investAddress)}`;
+
+const nestSchoolsLink =
+  `https://www.google.com/maps/search/schools+near+${encodeURIComponent(nestAddress)}`;
+
+const investSchoolsLink =
+  `https://www.google.com/maps/search/schools+near+${encodeURIComponent(investAddress)}`;
+
+const nestTransitLink =
+  `https://www.google.com/maps/search/transit+near+${encodeURIComponent(nestAddress)}`;
+
+const investTransitLink =
+  `https://www.google.com/maps/search/transit+near+${encodeURIComponent(investAddress)}`;
+
+const nestGreatSchoolsLink =
+  `https://www.greatschools.org/search/search.page?q=${encodeURIComponent(nestAddress)}`;
+
+const investGreatSchoolsLink =
+  `https://www.greatschools.org/search/search.page?q=${encodeURIComponent(investAddress)}`;
   async function handleLeadSubmit(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
   setLeadStatus("submitting");
@@ -110,10 +135,15 @@ export default function Page() {
   name,
   email,
   phone,
-  notes,
   nest_monthly: formatCurrency(nest.totalMonthly),
   invest_monthly: formatCurrency(invest.netMonthlyCost),
   recommendation: investWins ? "Invest" : "Nest",
+  nestAddress,
+investAddress,
+recommendation,
+nestMonthly: nest.totalMonthly,
+investMonthly: invest.totalMonthly,
+ notes,
 };
 
   try {
@@ -166,6 +196,42 @@ export default function Page() {
         <section style={cardStyle}>
           <h2 style={sectionTitleStyle}>Nest: Single-Family Home</h2>
           <p style={sectionTextStyle}>A simpler lifestyle with more privacy, but no built-in rental offset.</p>
+          <div style={{ marginBottom: "18px" }}>
+  <label style={{ display: "block", marginBottom: "6px", fontWeight: 600 }}>
+    Nest Property Address</label>
+  <input
+    type="text"
+value={nestAddress}
+onChange={(e) => setNestAddress(e.target.value)}
+placeholder="123 Main St, Los Angeles, CA"
+    style={{
+  width: "100%",
+  padding: "12px",
+  borderRadius: "10px",
+  border: "1px solid #cbd5e1",
+  fontSize: "15px",
+  boxSizing: "border-box",
+}}
+  />
+  
+</div><div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "18px" }}>
+  <a href={nestMapLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    Open Map
+  </a>
+
+  <a href={nestSchoolsLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    Nearby Schools
+  </a>
+
+  <a href={nestTransitLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    Nearby Transit
+  </a>
+
+  <a href={nestGreatSchoolsLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    GreatSchools
+  </a>
+</div>
+          
           <Field label="Purchase Price" value={nestPrice} setValue={setNestPrice} />
           <Field label="Down Payment %" value={nestDownPct} setValue={setNestDownPct} />
           <Field label="Interest Rate %" value={nestRate} setValue={setNestRate} />
@@ -179,6 +245,44 @@ export default function Page() {
         <section style={cardStyle}>
           <h2 style={sectionTitleStyle}>Invest: Multi-Family</h2>
           <p style={sectionTextStyle}>Live in one unit and use rent from the others to reduce your effective housing cost.</p>
+        
+   <div style={{ marginBottom: "18px" }}>
+  <label style={{ display: "block", marginBottom: "6px", fontWeight: 600 }}>
+    Invest Property Address
+  </label>
+
+  <input
+    type="text"
+    value={investAddress}
+    onChange={(e) => setInvestAddress(e.target.value)}
+    placeholder="456 Oak Ave, Los Angeles, CA"
+    style={{
+      width: "100%",
+      padding: "12px",
+      borderRadius: "10px",
+      border: "1px solid #cbd5e1",
+      fontSize: "15px",
+      boxSizing: "border-box",
+    }}
+  />
+</div>
+<div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "18px" }}>
+  <a href={investMapLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    Open Map
+  </a>
+
+  <a href={investSchoolsLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    Nearby Schools
+  </a>
+
+  <a href={investTransitLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    Nearby Transit
+  </a>
+
+  <a href={investGreatSchoolsLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
+    GreatSchools
+  </a>
+</div>
           <Field label="Purchase Price" value={investPrice} setValue={setInvestPrice} />
           <Field label="Down Payment %" value={investDownPct} setValue={setInvestDownPct} />
           <Field label="Interest Rate %" value={investRate} setValue={setInvestRate} />
@@ -238,6 +342,7 @@ export default function Page() {
         </section>
       </section>
 
+<section style={leadSectionStyle}>
 <div style={leadIntroStyle}>
   <div style={eyebrowStyle}>Next Step</div>
   <h2 style={leadTitleStyle}>Want a personalized review of your scenario?</h2>
@@ -299,6 +404,30 @@ export default function Page() {
         }}
       />
     </div>
+    <div>
+  <label
+    htmlFor="lead-phone"
+    style={{ display: "block", fontSize: "14px", marginBottom: "6px", color: "#334155", fontWeight: 600 }}
+  >
+    Phone Number
+  </label>
+  <input
+    id="lead-phone"
+    name="phone"
+    type="tel"
+    value={phone}
+    onChange={(e) => setPhone(e.target.value)}
+    placeholder="(310) 555-1234"
+    style={{
+      width: "100%",
+      padding: "12px",
+      borderRadius: "10px",
+      border: "1px solid #cbd5e1",
+      fontSize: "15px",
+      boxSizing: "border-box",
+    }}
+  />
+</div>
   </div>
 
   <div>
@@ -344,15 +473,15 @@ export default function Page() {
   )}
 
   {leadStatus === "error" && (
-    <div
-      style={{
-        background: "#fef2f2",
-        color: "#991b1b",
-        border: "1px solid #fecaca",
-        borderRadius: "12px",
-        padding: "14px 16px",
-      }}
-    >
+ <div
+  style={{
+    background: "#fef2f2",
+    color: "#991b1b",
+    border: "1px solid #fecaca",
+    borderRadius: "12px",
+    padding: "14px 16px",
+  }}
+>
       Something went wrong. Please try again.
     </div>
   )}
@@ -537,6 +666,18 @@ const buttonStyle: React.CSSProperties = {
   cursor: "pointer",
   width: "fit-content",
   boxShadow: "0 6px 16px rgba(37, 99, 235, 0.25)",
+};
+
+const locationLinkStyle: React.CSSProperties = {
+  display: "inline-block",
+  padding: "8px 12px",
+  borderRadius: "999px",
+  background: "#eff6ff",
+  color: "#1d4ed8",
+  textDecoration: "none",
+  fontSize: "13px",
+  fontWeight: 700,
+  border: "1px solid #bfdbfe",
 };
 
 function Field({
