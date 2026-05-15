@@ -140,7 +140,6 @@ const investGreatSchoolsLink =
   recommendation: investWins ? "Invest" : "Nest",
   nestAddress,
 investAddress,
-recommendation,
 nestMonthly: nest.totalMonthly,
 investMonthly: invest.totalMonthly,
  notes,
