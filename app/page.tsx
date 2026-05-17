@@ -48,6 +48,13 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
+  
+  const [showBuyerPriorities, setShowBuyerPriorities] = useState(false);
+  const [selectedPriorities, setSelectedPriorities] = useState<string[]>([]);
+  const [nestLikes, setNestLikes] = useState("");
+  const [nestConcerns, setNestConcerns] = useState("");
+  const [investLikes, setInvestLikes] = useState("");
+  const [investConcerns, setInvestConcerns] = useState("");
 
   const nest = useMemo(() => {
     const down = nestPrice * (nestDownPct / 100);
@@ -127,9 +134,19 @@ const nestGreatSchoolsLink =
 
 const investGreatSchoolsLink =
   `https://www.greatschools.org/search/search.page?q=${encodeURIComponent(investAddress)}`;
+  
+  const togglePriority = (priority: string) => {
+  setSelectedPriorities((prev) =>
+    prev.includes(priority)
+      ? prev.filter((p) => p !== priority)
+      : [...prev, priority]
+  );
+};
+  
   async function handleLeadSubmit(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
   setLeadStatus("submitting");
+
 
   const payload = {
   name,
@@ -142,6 +159,11 @@ const investGreatSchoolsLink =
 investAddress,
 nestMonthly: nest.totalMonthly,
 investMonthly: invest.totalMonthly,
+selectedPriorities,
+nestLikes,
+nestConcerns,
+investLikes,
+investConcerns,
  notes,
 };
 
@@ -191,6 +213,17 @@ investMonthly: invest.totalMonthly,
         <span style={{ marginLeft: 8 }}>{recommendation}</span>
       </section>
 
+<button
+  type="button"
+  onClick={() => window.print()}
+  style={{
+    ...buttonStyle,
+    marginBottom: "24px",
+  }}
+>
+  Print / Save Comparison
+</button>
+
       <section style={gridTwoStyle}>
         <section style={cardStyle}>
           <h2 style={sectionTitleStyle}>Nest: Single-Family Home</h2>
@@ -227,7 +260,7 @@ placeholder="123 Main St, Los Angeles, CA"
   </a>
 
   <a href={nestGreatSchoolsLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
-    GreatSchools
+    Research on GreatSchools
   </a>
 </div>
           
@@ -279,7 +312,7 @@ placeholder="123 Main St, Los Angeles, CA"
   </a>
 
   <a href={investGreatSchoolsLink} target="_blank" rel="noreferrer" style={locationLinkStyle}>
-    GreatSchools
+    Research on GreatSchools
   </a>
 </div>
           <Field label="Purchase Price" value={investPrice} setValue={setInvestPrice} />
@@ -342,6 +375,178 @@ placeholder="123 Main St, Los Angeles, CA"
       </section>
 
 <section style={leadSectionStyle}>
+  <button
+    type="button"
+    onClick={() => setShowBuyerPriorities(!showBuyerPriorities)}
+    style={{
+      background: "#f8fafc",
+      border: "1px solid #dbeafe",
+      borderRadius: "12px",
+      padding: "14px 18px",
+      width: "100%",
+      textAlign: "left",
+      fontWeight: 700,
+      fontSize: "16px",
+      cursor: "pointer",
+      color: "#1e3a8a",
+    }}
+  >
+    {showBuyerPriorities
+      ? "▼ Tell us what matters most"
+      : "▶ Tell us what matters most"}
+  </button>
+
+  {showBuyerPriorities && (
+    <div style={{ marginTop: "18px" }}>
+      <h3>Lifestyle Priorities</h3>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "20px" }}>
+        {[
+          "Privacy",
+          "Yard / outdoor space",
+          "Room for ADU/Expansion",
+          "School district",
+          "Walkability",
+          "Shorter commute",
+          "Quiet neighborhood",
+          "More room to grow",
+        ].map((priority) => (
+          <label
+            key={priority}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              background: selectedPriorities.includes(priority)
+                ? "#dbeafe"
+                : "#f8fafc",
+              border: "1px solid #cbd5e1",
+              borderRadius: "999px",
+              padding: "8px 12px",
+              cursor: "pointer",
+            }}
+          >
+          <input
+  type="checkbox"
+  checked={selectedPriorities.includes(priority)}
+  onChange={() => togglePriority(priority)}
+  style={{ cursor: "pointer" }}
+/>
+            {priority}
+          </label>
+        ))}
+      </div>
+
+      <h3>Financial Priorities</h3>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginBottom: "20px" }}>
+        {[
+          "Lowest monthly payment",
+          "Long-term equity",
+          "Rental income",
+          "Wealth building",
+          "Future resale",
+          "Lower risk",
+        ].map((priority) => (
+          <label
+            key={priority}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              background: selectedPriorities.includes(priority)
+                ? "#dbeafe"
+                : "#f8fafc",
+              border: "1px solid #cbd5e1",
+              borderRadius: "999px",
+              padding: "8px 12px",
+              cursor: "pointer",
+            }}
+          >
+            <input
+  type="checkbox"
+  checked={selectedPriorities.includes(priority)}
+  onChange={() => togglePriority(priority)}
+  style={{ cursor: "pointer" }}
+/>
+            {priority}
+          </label>
+        ))}
+      </div>
+
+<label style={{ display: "block", fontWeight: 600, marginBottom: "6px" }}>
+  What do you like most about the Nest option?
+</label>
+      <textarea
+        value={nestLikes}
+        onChange={(e) => setNestLikes(e.target.value)}
+        rows={3}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "12px",
+          border: "1px solid #cbd5e1",
+          marginBottom: "14px",
+          fontSize: "15px",
+          boxSizing: "border-box",
+        }}
+      />
+
+<label style={{ display: "block", fontWeight: 600, marginBottom: "6px" }}>
+  What concerns you about the Nest option?
+</label>
+      <textarea
+        value={nestConcerns}
+        onChange={(e) => setNestConcerns(e.target.value)}
+        rows={3}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "12px",
+          border: "1px solid #cbd5e1",
+          marginBottom: "14px",
+          fontSize: "15px",
+          boxSizing: "border-box",
+        }}
+      />
+<label style={{ display: "block", fontWeight: 600, marginBottom: "6px" }}>
+  What do you like most about the Invest option?
+</label>
+      <textarea
+        value={investLikes}
+        onChange={(e) => setInvestLikes(e.target.value)}
+        rows={3}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "12px",
+          border: "1px solid #cbd5e1",
+          marginBottom: "14px",
+          fontSize: "15px",
+          boxSizing: "border-box",
+        }}
+      />
+
+<label style={{ display: "block", fontWeight: 600, marginBottom: "6px" }}>
+  What concerns you about the Invest option?
+</label>
+      <textarea
+        value={investConcerns}
+        onChange={(e) => setInvestConcerns(e.target.value)}
+        rows={3}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "12px",
+          border: "1px solid #cbd5e1",
+          marginBottom: "14px",
+          fontSize: "15px",
+          boxSizing: "border-box",
+        }}
+      />
+    </div>
+  )}
+
 <div style={leadIntroStyle}>
   <div style={eyebrowStyle}>Next Step</div>
   <h2 style={leadTitleStyle}>Want a personalized review of your scenario?</h2>
@@ -472,19 +677,19 @@ placeholder="123 Main St, Los Angeles, CA"
   )}
 
   {leadStatus === "error" && (
- <div
-  style={{
-    background: "#fef2f2",
-    color: "#991b1b",
-    border: "1px solid #fecaca",
-    borderRadius: "12px",
-    padding: "14px 16px",
-  }}
->
-      Something went wrong. Please try again.
-    </div>
-  )}
-</form>
+  <div
+    style={{
+      background: "#fef2f2",
+      color: "#991b1b",
+      border: "1px solid #fecaca",
+      borderRadius: "12px",
+      padding: "14px 16px",
+    }}
+  >
+    Something went wrong. Please try again.
+  </div>
+)}
+        </form>
       </section>
     </main>
   );
