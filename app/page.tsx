@@ -30,6 +30,7 @@ export default function Page() {
   const [nestInsuranceRate, setNestInsuranceRate] = useState(0.23);
   const [nestMaintenance, setNestMaintenance] = useState(400);
   const [nestHoa, setNestHoa] = useState(0);
+  const [nestHasHoa, setNestHasHoa] = useState(false);
 
   const [investAddress, setInvestAddress] = useState("");
   const [investPrice, setInvestPrice] = useState(1150000);
@@ -62,10 +63,10 @@ export default function Page() {
     const mortgage = monthlyMortgagePayment(loan, nestRate, nestTerm);
     const taxes = (nestPrice * (nestTaxRate / 100)) / 12;
     const insurance = (nestPrice * (nestInsuranceRate / 100)) / 12;
-    const totalMonthly = mortgage + taxes + insurance + nestMaintenance + nestHoa;
+    const totalMonthly = mortgage + taxes + insurance + nestMaintenance + (nestHasHoa ? nestHoa : 0);
     
   return { down, loan, mortgage, taxes, insurance, totalMonthly };
-  }, [nestPrice, nestDownPct, nestRate, nestTerm, nestTaxRate, nestInsuranceRate, nestMaintenance, nestHoa]);
+  }, [nestPrice, nestDownPct, nestRate, nestTerm, nestTaxRate, nestInsuranceRate, nestMaintenance, nestHoa, nestHasHoa]);
 
   const invest = useMemo(() => {
     const down = investPrice * (investDownPct / 100);
@@ -283,6 +284,22 @@ placeholder="123 Main St, Los Angeles, CA"
           <Field label="Property Tax Rate (% annually)" value={nestTaxRate} setValue={setNestTaxRate} />
           <Field label="Insurance Rate (% annually)" value={nestInsuranceRate} setValue={setNestInsuranceRate} />
           <Field label="Maintenance / Month" value={nestMaintenance} setValue={setNestMaintenance} />
+         <label
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    marginBottom: "12px",
+    fontWeight: 600,
+  }}
+>
+  <input
+    type="checkbox"
+    checked={nestHasHoa}
+    onChange={(e) => setNestHasHoa(e.target.checked)}
+  />
+  Condo / Townhouse
+</label>
           <Field label="HOA / Month" value={nestHoa} setValue={setNestHoa} />
         </section>
 
@@ -367,6 +384,7 @@ placeholder="123 Main St, Los Angeles, CA"
           <Result label="Mortgage Payment" value={formatCurrency(nest.mortgage)} />
           <Result label="Taxes / Month" value={formatCurrency(nest.taxes)} />
           <Result label="Insurance / Month" value={formatCurrency(nest.insurance)} />
+          <Result label="HOA" value={nestHasHoa ? formatCurrency(nestHoa) : "N/A"}/>
           <Result label="Total Monthly Cost" value={formatCurrency(nest.totalMonthly)} />
           <div style={calloutMutedStyle}>
             <strong>Pros:</strong> privacy, simpler ownership, easier day-to-day living.
