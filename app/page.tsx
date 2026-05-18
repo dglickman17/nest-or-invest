@@ -111,6 +111,18 @@ export default function Page() {
     ? `Invest lowers your effective monthly cost by ${formatCurrency(monthlyDifference)} per month.`
     : `Nest costs ${formatCurrency(monthlyDifference)} less per month under these assumptions.`;
 
+    const nestDownPayment =
+  nestPrice * (nestDownPct / 100);
+
+const investDownPayment =
+  investPrice * (investDownPct / 100);
+
+const nestEstimatedCashNeeded =
+  nestDownPayment + nestPrice * 0.025;
+
+const investEstimatedCashNeeded =
+  investDownPayment + investPrice * 0.025;
+
     const nestMapLink =
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(nestAddress)}`;
 
@@ -198,7 +210,7 @@ investConcerns,
           <div style={eyebrowStyle}>Nest or Invest</div>
           <h1 style={heroTitleStyle}>Should you buy the home you want, or the property that helps pay for itself?</h1>
           <p style={heroTextStyle}>
-            Compare a single-family home with an owner-occupied multi-family property, then capture leads from buyers who want help reviewing the numbers.
+            A tool to help buyers think through and compare the financial and lifestyle aspects of one of life’s biggest decisions.
           </p>
         </div>
         <div style={heroCardStyle}>
@@ -346,7 +358,11 @@ placeholder="123 Main St, Los Angeles, CA"
       <section style={gridTwoStyle}>
         <section style={cardStyle}>
           <h2 style={sectionTitleStyle}>Nest Results</h2>
-          <Result label="Cash to Close" value={formatCurrency(nest.down)} />
+          <Result label="Down Payment" value={formatCurrency(nest.down)} />
+     <Result
+  label="Down + Closing Costs"
+  value={formatCurrency(nestEstimatedCashNeeded)}
+/>
           <Result label="Loan Amount" value={formatCurrency(nest.loan)} />
           <Result label="Mortgage Payment" value={formatCurrency(nest.mortgage)} />
           <Result label="Taxes / Month" value={formatCurrency(nest.taxes)} />
@@ -359,7 +375,11 @@ placeholder="123 Main St, Los Angeles, CA"
 
         <section style={cardStyle}>
           <h2 style={sectionTitleStyle}>Invest Results</h2>
-          <Result label="Cash to Close" value={formatCurrency(invest.down)} />
+          <Result label="Down Payment" value={formatCurrency(invest.down)} />
+          <Result
+  label="Down + Closing Costs"
+  value={formatCurrency(investEstimatedCashNeeded)}
+/>
           <Result label="Loan Amount" value={formatCurrency(invest.loan)} />
           <Result label="Mortgage Payment" value={formatCurrency(invest.mortgage)} />
           <Result label="Taxes / Month" value={formatCurrency(invest.taxes)} />
