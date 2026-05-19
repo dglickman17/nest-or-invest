@@ -31,6 +31,10 @@ export default function Page() {
   const [nestMaintenance, setNestMaintenance] = useState(400);
   const [nestHoa, setNestHoa] = useState(0);
   const [nestHasHoa, setNestHasHoa] = useState(false);
+  const [nestLocationFit, setNestLocationFit] = useState(5);
+  const [nestSpaceFit, setNestSpaceFit] = useState(5);
+  const [nestMoveInReadiness, setNestMoveInReadiness] = useState(5);
+  const [nestAmenitiesFit, setNestAmenitiesFit] = useState(5);
 
   const [investAddress, setInvestAddress] = useState("");
   const [investPrice, setInvestPrice] = useState(1150000);
@@ -43,6 +47,11 @@ export default function Page() {
   const [investRent, setInvestRent] = useState(3200);
   const [investVacancyPct, setInvestVacancyPct] = useState(5);
   const [investReservePct, setInvestReservePct] = useState(8);
+  const [investLocationFit, setInvestLocationFit] = useState(5);
+  const [investSpaceFit, setInvestSpaceFit] = useState(5);
+  const [investMoveInReadiness, setInvestMoveInReadiness] = useState(5);
+  const [investAmenitiesFit, setInvestAmenitiesFit] = useState(5);
+
   const [leadStatus, setLeadStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   
   const [name, setName] = useState("");
@@ -411,7 +420,154 @@ placeholder="123 Main St, Los Angeles, CA"
           </div>
         </section>
       </section>
+<section style={leadSectionStyle}>
+  <h2 style={leadTitleStyle}>Quick Property Fit Score</h2>
+  <p style={leadTextStyle}>
+    Use the sliders to compare how each property feels beyond the numbers.
+  </p>
 
+  <div style={{ marginTop: "20px" }}>
+    <h3>Desired Location Fit</h3>
+
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Nest</strong>
+          <strong>{nestLocationFit}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={nestLocationFit}
+          onChange={(e) => setNestLocationFit(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Invest</strong>
+          <strong>{investLocationFit}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={investLocationFit}
+          onChange={(e) => setInvestLocationFit(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+    </div>
+  </div>
+   <div style={{ marginTop: "20px" }}>
+    <h3>Space Fits Your Needs</h3>
+
+
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Nest</strong>
+          <strong>{nestSpaceFit}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={nestSpaceFit}
+          onChange={(e) => setNestSpaceFit(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Invest</strong>
+          <strong>{investSpaceFit}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={investSpaceFit}
+          onChange={(e) => setInvestSpaceFit(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+    </div>
+  </div>
+  <div style={{ marginTop: "20px" }}>
+    <h3>Move-In Readiness</h3>
+
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Nest</strong>
+          <strong>{nestMoveInReadiness}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={nestMoveInReadiness}
+          onChange={(e) => setNestMoveInReadiness(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Invest</strong>
+          <strong>{investMoveInReadiness}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={investMoveInReadiness}
+          onChange={(e) => setInvestMoveInReadiness(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+    </div>
+  </div>
+    <div style={{ marginTop: "20px" }}>
+    <h3>Amenities Fit Your Lifestyle</h3>
+
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Nest</strong>
+          <strong>{nestAmenitiesFit}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={nestAmenitiesFit}
+          onChange={(e) => setNestAmenitiesFit(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+
+      <div>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px" }}>
+          <strong>Invest</strong>
+          <strong>{investAmenitiesFit}/10</strong>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="10"
+          value={investAmenitiesFit}
+          onChange={(e) => setInvestAmenitiesFit(Number(e.target.value))}
+          style={{ width: "100%" }}
+        />
+      </div>
+    </div>
+  </div>
+</section>
 <section style={leadSectionStyle}>
   <button
     type="button"
