@@ -90,6 +90,8 @@ export default function Page() {
     const netMonthlyCost = totalMonthly - netRentContribution;
     const subsidyPct = totalMonthly > 0 ? (netRentContribution / totalMonthly) * 100 : 0;
 
+
+
     return {
       down,
       loan,
@@ -116,7 +118,21 @@ export default function Page() {
 
   const monthlyDifference = Math.abs(nest.totalMonthly - invest.netMonthlyCost);
   const investWins = invest.netMonthlyCost < nest.totalMonthly;
+const nestFitScore =
+  (
+    nestLocationFit +
+    nestSpaceFit +
+    nestMoveInReadiness +
+    nestAmenitiesFit
+  ) / 4;
 
+const investFitScore =
+  (
+    investLocationFit +
+    investSpaceFit +
+    investMoveInReadiness +
+    investAmenitiesFit
+  ) / 4;
   const recommendation = investWins
     ? `Invest lowers your effective monthly cost by ${formatCurrency(monthlyDifference)} per month.`
     : `Nest costs ${formatCurrency(monthlyDifference)} less per month under these assumptions.`;
@@ -425,7 +441,34 @@ placeholder="123 Main St, Los Angeles, CA"
   <p style={leadTextStyle}>
     Use the sliders to compare how each property feels beyond the numbers.
   </p>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: "24px",
+    marginBottom: "24px",
+  }}
+>
+  <div style={heroCardStyle}>
+    <div style={heroCardLabelStyle}>Nest Fit Score</div>
+    <div style={heroCardHeadlineStyle}>
+      {nestFitScore.toFixed(1)}/10
+    </div>
+    <div style={heroCardTextStyle}>
+      Lifestyle and emotional fit score
+    </div>
+  </div>
 
+  <div style={heroCardStyle}>
+    <div style={heroCardLabelStyle}>Invest Fit Score</div>
+    <div style={heroCardHeadlineStyle}>
+      {investFitScore.toFixed(1)}/10
+    </div>
+    <div style={heroCardTextStyle}>
+      Lifestyle and emotional fit score
+    </div>
+  </div>
+</div>
   <div style={{ marginTop: "20px" }}>
     <h3>Desired Location Fit</h3>
 
@@ -885,6 +928,70 @@ placeholder="123 Main St, Los Angeles, CA"
 )}
         </form>
       </section>
+    <section
+  style={{
+    marginTop: "60px",
+    padding: "32px",
+    background: "#ffffff",
+    borderRadius: "24px",
+    border: "1px solid #e2e8f0",
+    display: "flex",
+    gap: "24px",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
+  }}
+>
+  <img
+    src="/drew-headshot.png"
+    alt="Drew Glickman"
+    style={{
+      width: "120px",
+      height: "120px",
+      borderRadius: "999px",
+      objectFit: "cover",
+      border: "4px solid #dbeafe",
+    }}
+  />
+
+  <div style={{ flex: 1, minWidth: "260px" }}>
+    <h2 style={{ marginTop: 0 }}>About Drew</h2>
+
+    <p
+      style={{
+        lineHeight: 1.7,
+        color: "#334155",
+        marginBottom: "18px",
+      }}
+    >
+      I used AI to help me build this tool, but there’s a real
+      person behind it. My name is Drew Glickman, and I’ve been
+      a real estate broker on the westside of Los Angeles for
+      more than 20 years. I built Nest or Invest to help buyers
+      think through one of the biggest financial and lifestyle
+      decisions of their lives — not just with numbers, but with
+      perspective and experience.
+    </p>
+
+    <p
+      style={{
+        fontSize: "13px",
+        color: "#64748b",
+        lineHeight: 1.6,
+        marginBottom: 0,
+      }}
+    >
+      Drew Glickman is a licensed California real estate broker
+      (DRE #01493648) with eXp Realty of Greater Los Angeles.
+      Nest or Invest is an educational comparison tool designed
+      to help buyers explore ownership scenarios and should not
+      be considered financial, legal, tax, or investment advice.
+      Buyers should independently verify all assumptions and
+      consult appropriate professionals regarding their specific
+      situation.
+    </p>
+  </div>
+</section>
+    
     </main>
   );
 }
